@@ -1,32 +1,31 @@
 package uk.gov.dvla.vdl.pdf
 
-import java.io.{ByteArrayOutputStream, File}
+import java.io.{ByteArrayOutputStream, InputStream}
 import java.util
 
 import net.sf.jasperreports.engine._
 import net.sf.jasperreports.engine.xml.JRXmlLoader
 import uk.gov.dvla.vdl.report.Report
+import uk.gov.dvla.vdl.report.exception.NoCompiledTemplateException
 
 class Generator {
+
   import scala.collection.JavaConversions._
 
   private val compiledReports = collection.concurrent.TrieMap[String, JasperReport]()
+
+  def compile(name: String, template: InputStream) = {
+    val compiledReport = JasperCompileManager.compileReport(JRXmlLoader.load(template))
+    compiledReports.put(name, compiledReport)
+    compiledReport
+  }
 
   def generate(descriptor: Report): Array[Byte] = {
     require(descriptor.template != null, "Template parameter is required")
     require(descriptor.dataSource != null, "Data source parameter is required")
 
-    val report: JasperReport = compiledReports.get(descriptor.template) match {
-      case Some(compiledReport) => compiledReport
-      case None =>
-        def compileReport(template: String) = {
-          JasperCompileManager.compileReport(JRXmlLoader.load(new File(descriptor.template)))
-        }
-        val compiledReport = compileReport(descriptor.template)
-        compiledReports.put(descriptor.template, compiledReport)
-        compiledReport
-    }
-    val print: JasperPrint = JasperFillManager.fillReport(report, descriptor.parameters, descriptor.dataSource)
+    val compiledReport: JasperReport = compiledReports.getOrElse(descriptor.template, throw new NoCompiledTemplateException(descriptor.template))
+    val print: JasperPrint = JasperFillManager.fillReport(compiledReport, descriptor.parameters, descriptor.dataSource)
 
     new Exporter().export(print)
   }
