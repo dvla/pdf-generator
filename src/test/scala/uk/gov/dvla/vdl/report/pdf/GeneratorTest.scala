@@ -1,6 +1,7 @@
-package uk.gov.dvla.vdl.pdf
+package uk.gov.dvla.vdl.report.pdf
 
 import java.io.InputStream
+import java.util.Date
 
 import org.scalatest.{FlatSpec, Matchers}
 import uk.gov.dvla.vdl.report.JsonReport
@@ -25,15 +26,6 @@ class GeneratorTest extends FlatSpec with Matchers {
 
   }
 
-  it should "throw exception if data source is missing" in {
-    val report = new JsonReport(reportName, null)
-
-    intercept[IllegalArgumentException] {
-      generator.generate(report)
-    }
-
-  }
-
   it should "throw exception if trying generate report without prior template compilation" in {
     intercept[NoCompiledTemplateException] {
       generator.generate(
@@ -47,8 +39,10 @@ class GeneratorTest extends FlatSpec with Matchers {
     generator.compile(reportName, resourceAsStream("reports/sample.jrxml"))
 
     val printout: Array[Byte] = generator.generate(
-      new JsonReport(reportName, fromFile(resourcePath("data/sample.json")).mkString)
-        .withParameter("GENERATED_BY" -> "Kainos Software Ltd")
+      new JsonReport(reportName, fromFile(resourcePath("data/sample.json")).mkString,
+        "GENERATED_BY" -> "Kainos Software Ltd",
+        "GENERATION_DATE" -> new Date()
+      )
     )
 
     printout.length should not be 0

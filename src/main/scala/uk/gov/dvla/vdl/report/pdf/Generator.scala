@@ -1,4 +1,4 @@
-package uk.gov.dvla.vdl.pdf
+package uk.gov.dvla.vdl.report.pdf
 
 import java.io.{ByteArrayOutputStream, InputStream}
 import java.util
