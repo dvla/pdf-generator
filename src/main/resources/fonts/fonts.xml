@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+    <fontFamily name="Open Sans">
+        <normal>fonts/OpenSans-Regular.ttf</normal>
+        <italic>fonts/OpenSans-Italic.ttf</italic>
+        <bold>fonts/OpenSans-Semibold.ttf</bold>
+        <boldItalic>fonts/OpenSans-SemiboldItalic.ttf</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding>
+        <pdfEmbedded>true</pdfEmbedded>
+        <exportFonts>
+            <export key="net.sf.jasperreports.html">Arial, Helvetica, sans-serif</export>
+            <export key="net.sf.jasperreports.xhtml">Arial, Helvetica, sans-serif</export>
+        </exportFonts>
+    </fontFamily>
+
+</fontFamilies>
