@@ -157,3 +157,9 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+#################
+## Jasper Reports
+#################
+
+*.jasper
