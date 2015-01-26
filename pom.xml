@@ -6,7 +6,7 @@
     <parent>
         <groupId>uk.gov.dvla.iep</groupId>
         <artifactId>vdr-parent</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <groupId>uk.gov.dvla.iep.vdl</groupId>
